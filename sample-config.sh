@@ -1,3 +1,6 @@
+# this line is used for safety
+certmorebot=1
+
 email="bart@example.com"
 dns=route53
 

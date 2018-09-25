@@ -1,10 +1,15 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$0")"
 
 # default, can be overriden
 dns=route53
 . config.sh
+if [[ "$certmorebot" == "" ]]; then
+    echo "\$certmorebot was not defined after loading config.sh"
+    echo "Is this the correct data directory?"
+    pwd
+    exit 1
+fi
 if [[ "$email" == "" ]]; then
     echo "config.sh must provide email"
     exit 1

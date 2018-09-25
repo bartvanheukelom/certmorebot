@@ -41,13 +41,15 @@ elif [[ "$1" == "add" ]]; then
     docker run --rm --volume "${ledir}:/etc/letsencrypt" \
         -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY \
         ${dockimage} certonly --domain "$2" --email "${email}" --agree-tos \
+        --non-interactive \
         --dns-${dns}
     haproxyfi
 
 # run automated renew
 elif [[ "$1" == "renew" ]]; then
     docker run --rm --volume "${ledir}:/etc/letsencrypt" \
-        ${dockimage} renew
+        ${dockimage} renew \
+        --non-interactive
     haproxyfi
 
 else

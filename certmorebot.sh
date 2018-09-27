@@ -20,10 +20,11 @@ ledir="$(pwd)/letsencrypt"
 mkdir -p "${ledir}"
 
 haproxyfi() {
+    mkdir -p "${ledir}/haproxy"
     pushd "${ledir}/live"
     for domain in *; do
         echo $domain
-        cat "${domain}/fullchain.pem" "${domain}/privkey.pem" > "${domain}/fullwithpriv.pem"
+        cat "${domain}/fullchain.pem" "${domain}/privkey.pem" > "${ledir}/haproxy/${domain}.pem"
     done
     popd
 }

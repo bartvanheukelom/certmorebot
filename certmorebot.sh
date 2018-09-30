@@ -22,7 +22,6 @@ mkdir -p "${ledir}"
 
 haproxyfi() {
     mkdir -p "${alldir}"
-    echo "This directory contains all certificates, one file per domain, each file containing the full chain AND private key." > "${alldir}/README.txt"
 
     if [[ -d "${ledir}/live" ]]; then
         pushd "${ledir}/live"

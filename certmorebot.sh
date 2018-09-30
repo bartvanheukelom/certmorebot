@@ -17,14 +17,36 @@ fi
 
 dockimage="certbot/dns-${dns}"
 ledir="$(pwd)/letsencrypt"
+alldir="$(pwd)/all"
 mkdir -p "${ledir}"
 
 haproxyfi() {
-    mkdir -p "${ledir}/haproxy"
-    pushd "${ledir}/live"
-    for domain in *; do
-        echo $domain
-        cat "${domain}/fullchain.pem" "${domain}/privkey.pem" > "${ledir}/haproxy/${domain}.pem"
+    mkdir -p "${alldir}"
+    echo "This directory contains all certificates, one file per domain, each file containing the full chain AND private key." > "${alldir}/README.txt"
+
+    if [[ -d "${ledir}/live" ]]; then
+        pushd "${ledir}/live"
+        for domain in *; do
+            echo $domain
+            cat "${domain}/fullchain.pem" "${domain}/privkey.pem" > "${alldir}/${domain}.pem"
+        done
+        popd
+    fi
+
+    if [[ -d "manual" ]]; then
+        pushd "manual"
+        for domain in *; do
+            echo $domain
+            cat "${domain}/fullchain.pem" "${domain}/privkey.pem" > "${alldir}/${domain}.pem"
+        done
+        popd
+    fi
+
+    # Copy to old location (deprecated)
+    pushd "${alldir}"
+    for f in *; do
+        mkdir -p "${ledir}/haproxy"
+	cp "${f}" "${ledir}/haproxy/${f}"
     done
     popd
 }
